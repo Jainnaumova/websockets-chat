@@ -1,5 +1,6 @@
 // make connection from the client side
-var socket = io.connect('http://localhost:1234');
+
+var socket = io(window.location.origin);
 var color = 'blue'
 
 // emit message from the client to the server

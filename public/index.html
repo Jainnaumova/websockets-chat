@@ -1,9 +1,12 @@
+
+
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
     <title>WebSockets</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babylonjs/3.3.0/babylon.js"></script>
   </head>
   <body>
     <h1>You see me!!</h1>
@@ -16,6 +19,65 @@
         <button id="changeColor">Change Color</button>
       </div>
     </div>
+    <canvas id="renderCanvas"></canvas>
+   <style>
+   html, body {
+       overflow: hidden;
+       width   : 100%;
+       height  : 100%;
+       margin  : 0;
+       padding : 0;
+   }
+
+   #renderCanvas {
+       width   : 100%;
+       height  : 100%;
+       touch-action: none;
+   }
+   </style>
+
+     <script>
+         window.addEventListener('DOMContentLoaded', function() {
+             // All the following code is entered here.
+             var canvas = document.getElementById('renderCanvas');
+             var engine = new BABYLON.Engine(canvas, true);
+
+             var createScene = function() {
+               // Create a basic BJS Scene object.
+               var scene = new BABYLON.Scene(engine);
+
+               // Creates, angles, distances and targets the camera
+               var camera = new BABYLON.ArcRotateCamera("Camera", 0, 0, 10, new BABYLON.Vector3(0, 0, 0), scene);
+
+                // This positions the camera
+                camera.setPosition(new BABYLON.Vector3(0, 0, -10));
+
+                // This attaches the camera to the canvas
+                camera.attachControl(canvas, true);
+
+               // Create a basic light, aiming 0,1,0 - meaning, to the sky.
+               var light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0,1,0), scene);
+
+               // Create a built-in "knot" shape.
+               var knot = BABYLON.Mesh.CreateTorusKnot('mesh', 2, 0.5, 128, 64, 2, 50, scene);
+               var material = new BABYLON.StandardMaterial('mat', scene);
+               knot.material = material;
+               material.diffuseColor = new BABYLON.Color3(1.5, 0, 0);
+
+               // Return the created scene.
+               return scene;
+           }
+           var scene = createScene();
+
+           engine.runRenderLoop(function() {
+               scene.render();
+           });
+
+           window.addEventListener('resize', function() {
+               engine.resize();
+           });
+         });
+     </script>
     <script src="/chat.js"></script>
   </body>
 </html>

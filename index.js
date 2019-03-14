@@ -20,8 +20,11 @@ io.on("connection", (socket) => {
     io.sockets.emit("chat", data)
   })
 
-  socket.on("color", (color)=>{
-    // io.sockets <- reffers to all the sockets in the chat-room
-    io.sockets.emit("color", color)
+  socket.on('disconnect', (socket)=>{
+    console.log("disconnected", socket.id)
   })
+  // socket.on("color", (color)=>{
+  //   // io.sockets <- reffers to all the sockets in the chat-room
+  //   io.sockets.emit("color", color)
+  // })
 })
